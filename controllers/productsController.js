@@ -10,6 +10,17 @@ const allProducts = async (_req, res) => {
   }
 };
 
+const productById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await products.byId(id);
+    return res.status(200).json(result[0]);
+  } catch (err) {
+    return res.status(404).json({ message: err.message });
+  }
+};
+
 module.exports = {
   allProducts,
+  productById,
 };

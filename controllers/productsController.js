@@ -20,7 +20,18 @@ const productById = async (req, res) => {
   }
 };
 
+const insertProduct = async (req, res) => {
+  try {
+    const { name, quantity } = req.body;
+    const add = await products.newProduct(name, quantity);
+    return res.status(201).json(add);
+  } catch (err) {
+    return res.status(409).json({ message: err.message });
+  }
+};
+
 module.exports = {
   allProducts,
   productById,
+  insertProduct,
 };

@@ -28,5 +28,5 @@ const validateQuantity = (req, res, next) => {
 
 module.exports = {
   validateName,
-  validateQuantity
+  validateQuantity,
 };

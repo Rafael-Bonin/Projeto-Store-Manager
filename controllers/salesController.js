@@ -9,6 +9,17 @@ const allSales = async (_req, res) => {
   }
 };
 
+const salesById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const ids = await sales.byId(id);
+    return res.status(200).json(ids);
+  } catch (err) {
+    return res.status(404).json({ message: err.message });
+  }
+};
+
 module.exports = {
   allSales,
+  salesById,
 };

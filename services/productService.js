@@ -3,6 +3,7 @@ const { getAllProducts,
   addProduct,
   getProductName,
   updateProduct,
+  deleteProduct,
 } = require('../models/productsModel');
 
 const getAll = async () => {
@@ -30,9 +31,17 @@ const changeProduct = async (id, name, quantity) => {
   return update;
 };
 
+const removeProduct = async (id) => {
+  const exists = await productById(id);
+  if (exists.length === 0) throw new Error('Product not found');
+  const remove = await deleteProduct(id);
+  return remove;
+};
+
 module.exports = {
   getAll,
   byId,
   newProduct,
   changeProduct,
+  removeProduct,
 };

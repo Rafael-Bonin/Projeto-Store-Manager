@@ -2,6 +2,7 @@ const { getAllProducts,
   productById,
   addProduct,
   getProductName,
+  updateProduct,
 } = require('../models/productsModel');
 
 const getAll = async () => {
@@ -22,8 +23,16 @@ const newProduct = async (name, quantity) => {
   return query;
 };
 
+const changeProduct = async (id, name, quantity) => {
+  const exists = await productById(id);
+  if (exists.length === 0) throw new Error('Product not found');
+  const update = await updateProduct(id, name, quantity);
+  return update;
+};
+
 module.exports = {
   getAll,
   byId,
   newProduct,
+  changeProduct,
 };

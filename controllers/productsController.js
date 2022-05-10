@@ -30,8 +30,20 @@ const insertProduct = async (req, res) => {
   }
 };
 
+const editProduct = async (req, res) => {
+  try {
+    const { name, quantity } = req.body;
+    const { id } = req.params;
+    const refresh = await products.changeProduct(id, name, quantity);
+    return res.status(200).json(refresh);
+  } catch (err) {
+    return res.status(404).json({ message: err.message });
+  }
+};
+
 module.exports = {
   allProducts,
   productById,
   insertProduct,
+  editProduct,
 };

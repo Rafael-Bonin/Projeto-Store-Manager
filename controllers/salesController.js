@@ -19,7 +19,19 @@ const salesById = async (req, res) => {
   }
 };
 
+const addSale = async (req, res) => {
+  try {
+    const array = req.body;
+    console.log(array);
+    const added = await sales.createSale(array);
+    return res.status(201).json(added);
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
+};
+
 module.exports = {
   allSales,
   salesById,
+  addSale,
 };

@@ -28,7 +28,19 @@ const saleById = async (id) => {
   return result.map(serialize);
 };
 
+const addSale = async (array) => {
+  await connection.execute('INSERT INTO sales (date) VALUES (NOW());');
+  const [getId] = await connection.execute('SELECT MAX(id) AS id FROM sales;');
+  array.map(async (a) => {
+    const insert = await connection
+    .execute(`INSERT INTO sales_products VALUES(${getId[0].id}, ?, ?);`, [a.productId, a.quantity]);
+    return insert;
+  });
+  return { id: getId[0].id, itemsSold: array };
+};
+
 module.exports = {
   getAllSale,
   saleById,
+  addSale,
 };

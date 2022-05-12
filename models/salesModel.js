@@ -58,7 +58,8 @@ const deleteSale = async (id) => {
 };
 
 const getSaleProducts = async (id) => {
-  const [result] = await connection.execute('SELECT product_id, quantity FROM sales_products WHERE sale_id = ?;', [id]);
+  const [result] = await connection.execute(`SELECT product_id, quantity FROM
+   sales_products WHERE sale_id = ?;`, [id]);
   return result;
 };
 

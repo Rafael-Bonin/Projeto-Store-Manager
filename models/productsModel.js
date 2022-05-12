@@ -35,7 +35,8 @@ const deleteProduct = async (id) => {
 };
 
 const getproductQuantity = async (id) => {
-  const [[{ quantity }]] = await connection.execute('SELECT quantity FROM products WHERE id = ?', [id]);
+  const [[{ quantity }]] = await connection.execute(`SELECT quantity FROM
+   products WHERE id = ?`, [id]);
   return quantity;
 };
 

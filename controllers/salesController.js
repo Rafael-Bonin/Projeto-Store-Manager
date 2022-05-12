@@ -1,4 +1,5 @@
 const sales = require('../services/salesService');
+const { updateProductQuantity, getQuantity } = require('../services/productService');
 
 const allSales = async (_req, res) => {
   try {
@@ -22,8 +23,12 @@ const salesById = async (req, res) => {
 const addSale = async (req, res) => {
   try {
     const array = req.body;
-    console.log(array);
     const added = await sales.createSale(array);
+    array.map(async (a) => {
+      const quantity = await getQuantity(array[0].productId);
+      console.log(quantity);
+      await updateProductQuantity(a.productId, (quantity - a.quantity));
+    });
     return res.status(201).json(added);
   } catch (err) {
     return res.status(500).json({ message: err.message });
@@ -41,9 +46,26 @@ const updateSale = async (req, res) => {
   }
 };
 
+const deleteSale = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const sale = await sales.productsSales(id);
+    sale.map(async (s) => {
+      const quantity = await getQuantity(s.product_id);
+      await updateProductQuantity(s.product_id, (quantity + s.quantity));
+    });
+    await sales.removeSale(id);
+    return res.status(204).end();
+  } catch (err) {
+    return res.status(404).json({ message: err.message });
+  }
+};
+
 module.exports = {
   allSales,
   salesById,
   addSale,
   updateSale,
+  deleteSale,
 };

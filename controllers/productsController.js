@@ -16,6 +16,7 @@ const productById = async (req, res) => {
     const result = await products.byId(id);
     return res.status(200).json(result[0]);
   } catch (err) {
+    console.log(err.message);
     return res.status(404).json({ message: err.message });
   }
 };

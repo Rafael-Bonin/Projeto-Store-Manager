@@ -4,6 +4,8 @@ const { getAllProducts,
   getProductName,
   updateProduct,
   deleteProduct,
+  updateQuantity,
+  getproductQuantity,
 } = require('../models/productsModel');
 
 const getAll = async () => {
@@ -38,10 +40,22 @@ const removeProduct = async (id) => {
   return remove;
 };
 
+const updateProductQuantity = async (id, quantity) => {
+  await updateQuantity(id, quantity);
+};
+
+const getQuantity = async (id) => {
+  const total = await getproductQuantity(id);
+
+  return total;
+};
+
 module.exports = {
   getAll,
   byId,
   newProduct,
   changeProduct,
   removeProduct,
+  updateProductQuantity,
+  getQuantity,
 };

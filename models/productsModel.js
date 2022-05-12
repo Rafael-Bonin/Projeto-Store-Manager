@@ -34,6 +34,15 @@ const deleteProduct = async (id) => {
   return (`Produto ${id} deletado com sucesso`);
 };
 
+const getproductQuantity = async (id) => {
+  const [[{ quantity }]] = await connection.execute('SELECT quantity FROM products WHERE id = ?', [id]);
+  return quantity;
+};
+
+const updateQuantity = async (id, quantity) => {
+  await connection.execute('UPDATE products SET quantity = ? WHERE id = ?', [quantity, id]);
+};
+
 module.exports = {
   getAllProducts,
   productById,
@@ -41,4 +50,6 @@ module.exports = {
   getProductName,
   updateProduct,
   deleteProduct,
+  updateQuantity,
+  getproductQuantity,
 };

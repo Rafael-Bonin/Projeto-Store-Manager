@@ -49,7 +49,6 @@ const updateSale = async (req, res) => {
 const deleteSale = async (req, res) => {
   try {
     const { id } = req.params;
-
     const sale = await sales.productsSales(id);
     sale.map(async (s) => {
       const quantity = await getQuantity(s.product_id);

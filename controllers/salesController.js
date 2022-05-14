@@ -6,7 +6,7 @@ const allSales = async (_req, res) => {
     const all = await sales.getAll();
     return res.status(200).json(all);
   } catch (err) {
-    console.log('erro no sales', err.message);
+    res.status(500).json({ message: err.message });
   }
 };
 
@@ -26,7 +26,6 @@ const addSale = async (req, res) => {
     const added = await sales.createSale(array);
     array.map(async (a) => {
       const quantity = await getQuantity(array[0].productId);
-      console.log(quantity);
       await updateProductQuantity(a.productId, (quantity - a.quantity));
     });
     return res.status(201).json(added);

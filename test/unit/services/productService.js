@@ -36,7 +36,6 @@ describe('verifica o funcionamento da camada services products', () => {
    
     it('verifica o funcionamento da funcao getAll', async () => {
       const all = await services.getAll();
-      console.log(all);
 
       expect(all).to.have.lengthOf(3);
       expect(all).to.be.an('array');

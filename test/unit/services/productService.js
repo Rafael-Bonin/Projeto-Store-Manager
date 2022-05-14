@@ -1,8 +1,8 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
 const services = require('../../../services/productService');
-
-  const models = require('../../../models/productsModel');
+const connection = require('../../../models/connection');
+const models = require('../../../models/productsModel');
 
 describe('verifica o funcionamento da camada services products', () => {
   describe('verifica se e possivel resgatar todos os produtos', () => {
@@ -25,7 +25,8 @@ describe('verifica o funcionamento da camada services products', () => {
     ];
     beforeEach(() => {
       sinon.stub(models, 'getAllProducts')
-      .resolves(resolved);
+      .resolves(resolved); 
+
 
     });
     afterEach(() => {

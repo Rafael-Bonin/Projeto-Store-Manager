@@ -97,7 +97,7 @@ describe('testa os controllers dos products', () => {
       });
       afterEach(() => {
         services.byId.restore();
-      })
+      });
 
       it('retorna status 404', async () => {
         await controllers.productById(req, res);

@@ -111,4 +111,103 @@ describe('testa os controllers dos products', () => {
       });
     });
   });
+  describe('testa a funcao de adicionar um novo produto', () => {
+    describe('quando a requisicao e bem sucedida', () => {
+      const resolved = {
+        "id": 4,
+        "name": "brother",
+        "quantity": 5
+      };
+      const req = {};
+      const res = {};
+      req.body = {
+        "name": "brother",
+        "quantity": 5
+      }
+      beforeEach(() => {
+        res.status = sinon.stub().returns(res);
+        res.json = sinon.stub().returns();
+
+        sinon.stub(services, 'newProduct')
+        .resolves(resolved);
+
+      });
+      afterEach(() => {
+        services.newProduct.restore();
+      });
+
+      it('deve receber a resposta com status 201', async () => {
+        await controllers.insertProduct(req, res);
+
+        expect(res.status.calledWith(201)).to.be.equal(true);
+      });
+      it('deve receber um objeto com o produto criado', async () => {
+        await controllers.insertProduct(req, res);
+
+        expect(res.json.calledWith(sinon.match.object)).to.be.equal(true);
+      });
+    });
+    describe('quando o produto com mesmo nome ja foi cadastrado', () => {
+      const resolved = 'Product already exists';
+      const req = {};
+      const res = {};
+      req.body = {
+        "name": "Martelo de Thor",
+        "quantity": 5
+      }
+      beforeEach(() => {
+        res.status = sinon.stub().returns(res);
+        res.json = sinon.stub().returns();
+
+        sinon.stub(services, 'newProduct')
+        .throws(resolved);
+
+      });
+      afterEach(() => {
+        services.newProduct.restore();
+      });
+      it('deve retornar a resposta com status 409', async () => {
+        await controllers.insertProduct(req, res);
+
+        expect(res.status.calledWith(409)).to.be.equal(true);
+      });
+      it('deve retornar um objeto de erro', async () => {
+        await controllers.insertProduct(req, res);
+
+        expect(res.json.calledWith(sinon.match.object)).to.be.equal(true);
+      });
+    });
+  }); 
+  describe('testa a funcao de editar um produto', () => {
+    describe('quando a atualizacao e bem sucedida', () => {
+      const resolved = {
+        "id": "1",
+        "name": "Broder",
+        "quantity": 5
+      };
+      const req = {};
+      const res = {};
+      req.params = { id: 1 };
+      req.body = {
+        "name": "Broder",
+        "quantity": 5
+      };
+      beforeEach(() => {
+        res.status = sinon.stub().returns(res);
+        res.json = sinon.stub().returns();
+  
+        sinon.stub(services, 'changeProduct')
+        .resolves(resolved);
+  
+      });
+      afterEach(() => {
+        services.changeProduct.restore();
+      });
+      it('deve retornar a resposta com status 200', async () => {
+        await controllers.editProduct(req, res);
+
+        expect(res.status.calledWith(200)).to.be.equal(true);
+      });
+    });
+  });
 });

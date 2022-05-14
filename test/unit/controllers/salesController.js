@@ -105,41 +105,40 @@ describe('testa os controllers das sales', () => {
     });
   });
   describe('testa a funcao de atualizar uma sale', () => {
-    const resolved = {
-      "saleId": "2",
-      "itemUpdated": [
-        {
-          "productId": 2,
-          "quantity": 5
-        }
-      ]
-    };
-    const req = {};
-    const res = {};
-    req.params = { id: 2 };
-    req.body = [{ productId: 2, quantity: 5 }];
-    beforeEach(() => {
-      res.status = sinon.stub().returns(res);
-      res.json = sinon.stub().returns();
-
-      sinon.stub(services, 'editSale')
-      .resolves(resolved);
-    });
-    afterEach(() => {
-      services.editSale.restore();
-    });
     describe('quando a resposta e positiva', () => {
+      const resolved = {
+        "saleId": "2",
+        "itemUpdated": [
+          {
+            "productId": 2,
+            "quantity": 5
+          }
+        ]
+      };
+      const req = {};
+      const res = {};
+      req.params = { id: 2 };
+      req.body = [{ productId: 2, quantity: 5 }];
+      beforeEach(() => {
+        res.status = sinon.stub().returns(res);
+        res.json = sinon.stub().returns();
+  
+        sinon.stub(services, 'editSale')
+        .resolves(resolved);
+      });
+      afterEach(() => {
+        services.editSale.restore();
+      });
       it('retorna uma resposta com status 200', async () => {
         await controllers.updateSale(req, res);
 
         expect(res.status.calledWith(200)).to.be.equal(true);
       });
       it('retorna um objeto com a sale atualizada', async () => {
-        await controllers.updateSale(req.params.id, req.body.productId, req.body.quantity);
+        await controllers.updateSale(req, res);
 
         expect(res.json.calledWith(sinon.match.object)).to.be.equal(true);
       });
     });
-
   });
 });

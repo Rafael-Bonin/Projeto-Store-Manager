@@ -1,7 +1,6 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
 const services = require('../../../services/productService');
-const connection = require('../../../models/connection');
 const models = require('../../../models/productsModel');
 
 describe('verifica o funcionamento da camada services products', () => {

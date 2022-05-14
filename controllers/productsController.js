@@ -6,7 +6,7 @@ const allProducts = async (_req, res) => {
 
     return res.status(200).json(all);
   } catch (err) {
-    return res.status(500).json({message: err.message});
+    return res.status(500).json({ message: err.message });
   }
 };
 
@@ -44,7 +44,7 @@ const editProduct = async (req, res) => {
 const deleteProduct = async (req, res) => {
   try {
     const { id } = req.params;
-    const remove = await products.removeProduct(id);
+    await products.removeProduct(id);
     return res.status(204).end();
   } catch (err) {
     return res.status(404).json({ message: err.message });

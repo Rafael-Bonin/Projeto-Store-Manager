@@ -1,3 +1,5 @@
+const services = require('../services/productService');
+
 const validateQuantity = (req, res, next) => {
   try {
     const { body } = req;
@@ -28,7 +30,26 @@ const validateProductId = (req, res, next) => {
   }
 };
 
+const test = async (req, res, next) => {
+try {
+  const { body } = req;
+  const quantity = await body.map(async (a) => {
+    const quantitys = await services.getQuantity(a.productId);
+    return quantitys;
+  });
+  const resolve = await Promise.all(quantity);
+  const saleQuantity = body.some((q, i) => q.quantity > resolve[i]);
+  if (saleQuantity) {
+ return res.status(422).json({ message: 'Such amount is not permitted to sell' }); 
+}
+  next();
+} catch (err) {
+  return res.status(500).json({ message: err.message });
+}
+};
+
 module.exports = {
   validateQuantity,
   validateProductId,
+  test,
 };

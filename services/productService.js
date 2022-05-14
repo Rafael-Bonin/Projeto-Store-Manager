@@ -33,7 +33,7 @@ const removeProduct = async (id) => {
 };
 
 const updateProductQuantity = async (id, quantity) => {
-  await updateQuantity(id, quantity);
+  await models.updateQuantity(id, quantity);
 };
 
 const getQuantity = async (id) => {

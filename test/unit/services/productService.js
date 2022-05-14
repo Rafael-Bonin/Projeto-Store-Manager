@@ -66,12 +66,16 @@ describe('verifica o funcionamento da camada services products', () => {
 
   describe('testes update de produto', () => {
     const resolved = { id: 1, name: 'test', quantity: 10 };
+    const resolved1 = [{ id: 1, name: 'Martelo de Thor', quantity: 10 }];
     beforeEach(() => {
       sinon.stub(models, 'updateProduct')
       .resolves(resolved);
+      sinon.stub(models, 'productById')
+      .resolves(resolved1);
     });
     afterEach(() => {
       models.updateProduct.restore();
+      models.productById.restore();
     });
     it('verifica se retorna os valores corretos ao atualizar um produto', async () => {
       const updated = await services.changeProduct(1, 'test', 10);
@@ -86,12 +90,16 @@ describe('verifica o funcionamento da camada services products', () => {
 
 describe('testes com delete', () => {
   const resolved = `Produto 2 deletado com sucesso`;
+  const resolved1 = [{ id: 2, name: 'Traje de encolhimento', quantity: 20 }];
   beforeEach(() => {
     sinon.stub(models, 'deleteProduct')
     .resolves(resolved);
+    sinon.stub(models, 'productById')
+    .resolves(resolved1);
   });
   afterEach(() => {
     models.deleteProduct.restore();
+    models.productById.restore();
   });
 
   it('verifica se e retornado o valor correto ao tentar remover um produto', async () => {
@@ -102,10 +110,13 @@ describe('testes com delete', () => {
 });
 
 describe('testa a funcao de criar um produto novo', () => {
-  const resolved = { id: 1, name: 'nameProduct', quantity: 50 }
+  const resolved = { id: 1, name: 'nameProduct', quantity: 50 };
+  const resolved1 = []
   beforeEach(() => {
     sinon.stub(models, 'addProduct')
     .resolves(resolved);
+    sinon.stub(models, 'getProductName')
+    .resolves(resolved1);
   });
   afterEach(() => {
     models.addProduct.restore();
